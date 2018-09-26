@@ -1,31 +1,36 @@
+/*
+ * The value of the variable x in the child process is equal to the initial
+ * value of 500. When both the child and parent change the value of x, the
+ * value of variable x changes to whatever is set by the two processes - the
+ * value of x in the child process will change to whatever is set in that
+ * process and the value of x in the parent process will also change to
+ * whatever is set in that process.
+ */
 #include <stdio.h>
-#include <sys/types.h>
-#include <unistd.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 int main(void)
 {
-	int x = 500;
+	int x = 1000;
+	int rc = fork();
 
-	printf("Initial value of x: %d\n", x);
-	int f = fork();
-
-	if (f < 0) {
+	if (rc < 0) {
 		fprintf(stderr, "fork failed\n");
 		exit(1);
 	}
 
-	else if (f == 0) {
-		printf("I am child\t");
-		printf("Value of x: %d\t", x);
-		x = 1000;
+	else if (rc == 0) {
+		printf("Hello I am child. ");
+		printf("Initial value of x: %d ", x);
+		x = 2000;
 		printf("New value of x: %d\n", x);
 	}
 
 	else {
-		printf("I am parent\t");
-		printf("Value of x: %d\t", x);
-		x = 2000;
+		printf("Hello I am parent. ");
+		printf("Initial value of x: %d ", x);
+		x = 3000;
 		printf("New value of x: %d\n", x);
 	}
 
