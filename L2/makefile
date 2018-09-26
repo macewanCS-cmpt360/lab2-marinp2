@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -ansi -std=c11
+CFLAGS = -Wall -ansi
 
 q1: q1.c
 	$(CC) $(CFLAGS) -o q1 q1.c
